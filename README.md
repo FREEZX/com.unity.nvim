@@ -16,6 +16,7 @@ The pipe name contains a hash of the same project directory, so you will only ha
 * Then, we issue a command via nvr to open a given file at the desired line.
 * If we haven't previously launched a client process, we start a new process with the desired client and attach to the running nvim server.
 
+All the commands that are being run, including their arguments can be changed in the "External Tools" window in Unity.
 
 ### Neovim config
 
