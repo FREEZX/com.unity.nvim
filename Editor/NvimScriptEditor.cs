@@ -250,26 +250,26 @@ namespace NvimEditor
                 return false;
             }
 
-            int projectHash = Directory.GetCurrentDirectory().GetHashCode();
+            int projectHash = Math.Abs(Directory.GetCurrentDirectory().GetHashCode());
             #if UNITY_WINDOWS
-            var pipePath = $"\\\\.\\pipe\\unity-nvim-ipc{projectHash}";
+            var pipePath = $"\\\\.\\pipe\\unity-nvim-ipc-{projectHash}";
             var runningPipes = Directory.GetFiles(@"\\.\pipe\");
-            #else
-            var nvimPipesDir = "~/.cache/nvim";
-            Directory.CreateDirectory(nvimPipesDir);
-            var pipePath = $"{nvimPipesDir}/unity-nvim-ipc{projectHash}.pipe";
-            var runningPipes = Directory.GetFiles(nvimPipesDir);
-            #endif
             var isServerRunning = runningPipes.Contains(pipePath);
+            UnityEngine.Debug.Log("Windowss");
+            #else
+            var pipePath = $"/tmp/nvimsocket_{projectHash}";
+            var isServerRunning = File.Exists(pipePath);
+            UnityEngine.Debug.Log("Nix");
+            #endif
 
             if (!isServerRunning)
             {
+                var serverArgs = ReplaceTemplate(ServerArgs, pipePath, path, 1, 0);
                 ProcessStartInfo nvimServerStartInfo = new ProcessStartInfo
                 {
-                    CreateNoWindow = true,
-                    Arguments =
-                        $@"--headless --listen {pipePath}",
-                    FileName = "nvim",
+                    CreateNoWindow = false,
+                    Arguments = serverArgs,
+                    FileName = ServerCmd,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     WorkingDirectory = Directory.GetCurrentDirectory()
@@ -281,7 +281,7 @@ namespace NvimEditor
 
             ProcessStartInfo nvrStartInfo = new ProcessStartInfo
             {
-                CreateNoWindow = true,
+                CreateNoWindow = false,
                 Arguments = nvrParams,
                 FileName = RemoteCmd,
                 UseShellExecute = false,
@@ -290,12 +290,13 @@ namespace NvimEditor
             Process.Start(nvrStartInfo);
 
             Process process = Process.GetProcesses().FirstOrDefault(x => x.Id == EditorPid);
+            UnityEngine.Debug.Log($"pid {process}");
 
             if (process == null || process.HasExited)
             {
                 var nvimArgs = ClientArgs;
                 nvimArgs = ReplaceTemplate(nvimArgs, pipePath, path, 0, 0);
-                UnityEngine.Debug.Log(nvimArgs);
+                UnityEngine.Debug.Log($"{ClientCmd} {nvimArgs}");
 
                 ProcessStartInfo editorStartInfo = new ProcessStartInfo
                 {
