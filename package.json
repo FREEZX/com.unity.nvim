@@ -1,13 +1,10 @@
 {
-  "name": "com.unity.ide.nvim",
+  "name": "com.unity.nvim",
   "displayName": "Neovim Editor",
   "description": "Code editor integration for supporting Neovim as code editor for unity. Adds support for generating csproj files for intellisense purposes, etc.",
   "version": "1.2.5",
   "unity": "2019.2",
   "unityRelease": "0a12",
-  "relatedPackages": {
-    "com.unity.ide.vscode.tests": "1.2.5"
-  },
   "upmCi": {
     "footprint": "bc03b7bb076199fbe68649a647d0d32d98af6a0f"
   },
