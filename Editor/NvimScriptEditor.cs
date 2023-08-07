@@ -250,10 +250,16 @@ namespace NvimEditor
                 return false;
             }
 
-#if UNITY_EDITOR_WIN
             int projectHash = Directory.GetCurrentDirectory().GetHashCode();
+            #if UNITY_WINDOWS
             var pipePath = $"\\\\.\\pipe\\unity-nvim-ipc{projectHash}";
             var runningPipes = Directory.GetFiles(@"\\.\pipe\");
+            #else
+            var nvimPipesDir = "~/.cache/nvim";
+            Directory.CreateDirectory(nvimPipesDir);
+            var pipePath = $"{nvimPipesDir}/unity-nvim-ipc{projectHash}.pipe";
+            var runningPipes = Directory.GetFiles(nvimPipesDir);
+            #endif
             var isServerRunning = runningPipes.Contains(pipePath);
 
             if (!isServerRunning)
@@ -311,18 +317,6 @@ namespace NvimEditor
                 UnityEngine.Debug.Log(process);
                 // ForceForegroundWindow(process.MainWindowHandle);
             }
-#else
-            ProcessStartInfo startInfo = new ProcessStartInfo
-            {
-                Arguments =
-                    $@"""{terminalExecutable}"" ""{editorCommand}"" ""{filePath}"" {line},{column}",
-                FileName = launcherPath,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-            };
-
-            Process.Start(editorStartInfo);
-#endif
 
             return true;
 
