@@ -49,7 +49,7 @@ namespace NvimEditor
 
         string ServerCmd
         {
-            get => m_ServerCmd ?? (m_ServerCmd = EditorPrefs.GetString(nvim_server_cmd, DefaultClientCmd));
+            get => m_ServerCmd ?? (m_ServerCmd = EditorPrefs.GetString(nvim_server_cmd, DefaultServerCmd));
             set
             {
                 m_ServerCmd = value;
@@ -59,7 +59,7 @@ namespace NvimEditor
 
         string ServerArgs
         {
-            get => m_ServerArgs ?? (m_ServerArgs = EditorPrefs.GetString(nvim_server_args, DefaultClientArgs));
+            get => m_ServerArgs ?? (m_ServerArgs = EditorPrefs.GetString(nvim_server_args, DefaultServerArgs));
             set
             {
                 m_ServerArgs = value;
@@ -89,7 +89,7 @@ namespace NvimEditor
 
         string RemoteCmd
         {
-            get => m_RemoteCmd ?? (m_RemoteCmd = EditorPrefs.GetString(nvim_remote_cmd, DefaultRemoteArgs));
+            get => m_RemoteCmd ?? (m_RemoteCmd = EditorPrefs.GetString(nvim_remote_cmd, DefaultRemoteCmd));
             set
             {
                 m_RemoteCmd = value;
