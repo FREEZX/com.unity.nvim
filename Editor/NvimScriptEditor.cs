@@ -255,11 +255,9 @@ namespace NvimEditor
             var pipePath = $"\\\\.\\pipe\\unity-nvim-ipc-{projectHash}";
             var runningPipes = Directory.GetFiles(@"\\.\pipe\");
             var isServerRunning = runningPipes.Contains(pipePath);
-            UnityEngine.Debug.Log("Windowss");
             #else
             var pipePath = $"/tmp/nvimsocket_{projectHash}";
             var isServerRunning = File.Exists(pipePath);
-            UnityEngine.Debug.Log("Nix");
             #endif
 
             if (!isServerRunning)
@@ -290,13 +288,11 @@ namespace NvimEditor
             Process.Start(nvrStartInfo);
 
             Process process = Process.GetProcesses().FirstOrDefault(x => x.Id == EditorPid);
-            UnityEngine.Debug.Log($"pid {process}");
 
             if (process == null || process.HasExited)
             {
                 var nvimArgs = ClientArgs;
                 nvimArgs = ReplaceTemplate(nvimArgs, pipePath, path, 0, 0);
-                UnityEngine.Debug.Log($"{ClientCmd} {nvimArgs}");
 
                 ProcessStartInfo editorStartInfo = new ProcessStartInfo
                 {
@@ -315,7 +311,6 @@ namespace NvimEditor
             }
             else
             {
-                UnityEngine.Debug.Log(process);
                 // ForceForegroundWindow(process.MainWindowHandle);
             }
 
