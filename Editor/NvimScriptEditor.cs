@@ -251,7 +251,7 @@ namespace NvimEditor
             }
 
             int projectHash = Math.Abs(Directory.GetCurrentDirectory().GetHashCode());
-            #if UNITY_WINDOWS
+            #if UNITY_EDITOR_WINDOWS
             var pipePath = $"\\\\.\\pipe\\unity-nvim-ipc-{projectHash}";
             var runningPipes = Directory.GetFiles(@"\\.\pipe\");
             var isServerRunning = runningPipes.Contains(pipePath);
@@ -267,7 +267,7 @@ namespace NvimEditor
                 var serverArgs = ReplaceTemplate(ServerArgs, pipePath, path, 1, 0);
                 ProcessStartInfo nvimServerStartInfo = new ProcessStartInfo
                 {
-                    CreateNoWindow = false,
+                    CreateNoWindow = true,
                     Arguments = serverArgs,
                     FileName = ServerCmd,
                     UseShellExecute = false,
@@ -281,7 +281,7 @@ namespace NvimEditor
 
             ProcessStartInfo nvrStartInfo = new ProcessStartInfo
             {
-                CreateNoWindow = false,
+                CreateNoWindow = true,
                 Arguments = nvrParams,
                 FileName = RemoteCmd,
                 UseShellExecute = false,
