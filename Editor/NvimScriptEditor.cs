@@ -251,7 +251,7 @@ namespace NvimEditor
             }
 
             int projectHash = Math.Abs(Directory.GetCurrentDirectory().GetHashCode());
-            #if UNITY_EDITOR_WINDOWS
+            #if UNITY_EDITOR_WIN
             var pipePath = $"\\\\.\\pipe\\unity-nvim-ipc-{projectHash}";
             var runningPipes = Directory.GetFiles(@"\\.\pipe\");
             var isServerRunning = runningPipes.Contains(pipePath);
