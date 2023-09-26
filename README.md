@@ -23,7 +23,7 @@ All the commands that are being run, including their arguments can be changed in
 Configuring your nvim to be compatible with unity is out of scope for this project, but here is my experience:
 
 At the time of writing, I'm running nvim 0.9.1 and basic lazyvim.
-I have only omnisharp-mono installed using mason, and it provides great code actions and completion.
+I have only omnisharp-mono installed using mason, and it provides great code actions and completion. I have also tried csharp-ls, which is a bit less capable but much faster, so it's a good option if you're getting LSP timeouts.
 For proper detection of newly-added files, the following config is required for your LSP (Credits go to [@niscolas](https://github.com/niscolas)) for figuring it out:
 
 Your LSP Capabilities table should include `workspace.didChangeWatchedFiles.dynamicRegistration = true (Neovim news.txt)`, example:
